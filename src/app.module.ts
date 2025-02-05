@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MyConfigModule } from './config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       //Logger setings to log error's and warn's in the ORM.
       logger: 'file',
       logging: ['error'],
-    })
+    }),
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],
