@@ -61,7 +61,7 @@ async function bootstrap() {
 }
 bootstrap();
 /**
- * The major disadvantage of using this method is that we can’t 
+ * The major disadvantage of using this(customlogger) method is that we can’t 
  * disable the logger at the application level. For example:
  * 
  * const app = await NestFactory.create(AppModule, { logger:false } );

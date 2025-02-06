@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as path from 'path';
 import * as winston from 'winston';
+import 'winston-daily-rotate-file';
 
 /**
  * CLI and NPM log levels are: error, warn, info, debug, http, verbose, input, silly, data, help, prompt.
@@ -54,9 +55,10 @@ export class WinstonLogger {
     const logDir = path.join(process.cwd(), 'logs');
 
     this.logger = winston.createLogger({
-      level: 'notice',
+      level: 'notice',// Set log level to the least severe level to log everything
       levels: customLevels.levels,
       format: winston.format.combine(
+        winston.format.ms(),
         winston.format.timestamp(),
         winston.format.colorize({ all: true, colors: customLevels.colors }),
         winston.format.printf(
@@ -64,12 +66,22 @@ export class WinstonLogger {
         ),
       ),
       transports: [
-        new winston.transports.File({
-          level: 'data',
-          filename: 'application.log',
-          dirname: logDir,
-          format: winston.format.uncolorize(),
-        }),
+        // new winston.transports.File({
+        //   level: 'data',
+        //   filename: 'application.log',
+        //   dirname: logDir,
+        //   format: winston.format.uncolorize(),
+        // }),
+        new winston.transports.DailyRotateFile({
+            level: 'data',
+            filename: 'application-%DATE%.log',
+            dirname: logDir,
+            datePattern: 'YYYY-MM-DD',
+            format: winston.format.uncolorize(),
+            zippedArchive: true,
+            maxSize: '20m', 
+            maxFiles: '7d',
+        })
       ],
     });
 
