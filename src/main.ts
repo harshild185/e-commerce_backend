@@ -41,10 +41,23 @@ async function bootstrap() {
   const logger = new WinstonLogger();
   const appUrl = await app.getUrl();
 
-  logger.error(`Application is running on: ${appUrl}`, "Bootstrap");
+  // cli and npm levels
+  logger.error(`Application is running on: ${appUrl}`);
+  logger.warn(`Application is running on: ${appUrl}`);
   logger.info(`Application is running on: ${appUrl}`);
   logger.debug(`Application is running on: ${appUrl}`);
-  logger.warn(`Application is running on: ${appUrl}`);
+  logger.http(`Application is running on: ${appUrl}`);
+  logger.verbose(`Application is running on: ${appUrl}`);
+  logger.input(`Application is running on: ${appUrl}`);
+  logger.silly(`Application is running on: ${appUrl}`);
+  logger.data(`Application is running on: ${appUrl}`);
+  logger.help(`Application is running on: ${appUrl}`);
+  logger.prompt(`Application is running on: ${appUrl}`);
+  // syslog level
+  logger.emerg(`Application is running on: ${appUrl}`);
+  logger.alert(`Application is running on: ${appUrl}`);
+  logger.crit(`Application is running on: ${appUrl}`);
+  logger.notice(`Application is running on: ${appUrl}`);
 }
 bootstrap();
 /**
