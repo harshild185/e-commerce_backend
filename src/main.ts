@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { CustomLogger } from './config/custom.logger';
+import { WinstonLogger } from './config/winston.logger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, 
@@ -17,7 +18,6 @@ async function bootstrap() {
 
   // Retrieving the application port from the configuration or using the default value of 3000
   const port = configService.get<number>('app.port', 3000);
-  
   await app.listen(port);
   // console.log(`Application is running on: ${await app.getUrl()}`);
 
@@ -25,8 +25,8 @@ async function bootstrap() {
   Logger.log(`This application is running on: ${await app.getUrl()}`)
 
   //  With Logger context
-  const logger = new Logger("Bootstrap");
-  logger.debug(`Application is running on: ${await app.getUrl()}`);
+  // const logger = new Logger("Bootstrap");
+  // logger.debug(`Application is running on: ${await app.getUrl()}`);
 
   // direct with context
   Logger.warn(`Application is running on: ${await app.getUrl()}`, "Bootstrap");
@@ -37,6 +37,14 @@ async function bootstrap() {
   customlogger.error(`Application is running on: ${await app.getUrl()}`);
   customlogger.debug(`Application is running on: ${await app.getUrl()}`);
   customlogger.warn(`Application is running on: ${await app.getUrl()}`);
+
+  const logger = new WinstonLogger();
+  const appUrl = await app.getUrl();
+
+  logger.error(`Application is running on: ${appUrl}`, "Bootstrap");
+  logger.info(`Application is running on: ${appUrl}`);
+  logger.debug(`Application is running on: ${appUrl}`);
+  logger.warn(`Application is running on: ${appUrl}`);
 }
 bootstrap();
 /**
